@@ -11,10 +11,12 @@ public abstract class WeaponBase : MonoBehaviour
 
     public WeaponInput weaponInput;
 
-    public abstract void StartAttacking();
+    public abstract void StartAttacking(Transform target);
     public abstract void StopAttacking();
     public abstract void Holster();
     public abstract void UnHolster();
 
     public abstract void UpdateWeapon(float deltaTime);
+
+    public abstract bool CanAttack();
 }

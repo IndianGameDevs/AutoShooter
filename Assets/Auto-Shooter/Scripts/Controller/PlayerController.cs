@@ -9,7 +9,7 @@ public class PlayerController : MonoBehaviour
     [Header("References")]
     [SerializeField] private CharacterController controller;
     [SerializeField] private Collider characterCollider;
-    [SerializeField] private Transform cameraAimLookAt;
+    public Transform cameraAimLookAt;
     [Space(20)]
 
     [Header("Scene-Objects")]
@@ -51,7 +51,7 @@ public class PlayerController : MonoBehaviour
 
         if (m_Input.RunPressed)
         {
-            if(CanRun())
+            if (CanRun())
             {
                 IsRunning = true;
             }
@@ -68,8 +68,12 @@ public class PlayerController : MonoBehaviour
         float yawCamera = playerCam.transform.eulerAngles.y;
 
         transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(0, yawCamera, 0), m_Movement.TurnSpeed * Time.deltaTime);
-        cameraAimLookAt.transform.position = playerCam.cameraAim.TransformPoint(cameraAimOffset);
         CheckAnimations();
+    }
+
+    private void LateUpdate()
+    {
+        cameraAimLookAt.transform.position = playerCam.cameraAim.TransformPoint(cameraAimOffset);
     }
 
     private void CheckAnimations()

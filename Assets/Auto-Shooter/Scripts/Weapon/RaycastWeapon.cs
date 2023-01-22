@@ -26,13 +26,18 @@ public class RaycastWeapon : WeaponBase
             return 1.0f / m_WeaponAttributes.WeaponFireRate;
         }
     }
+
+    public Transform cameraTarget;
+    public bool IsReloading;
+
     public override void Holster()
     {
         m_IsHolstered = true;
     }
 
-    public override void StartAttacking()
+    public override void StartAttacking(Transform target)
     {
+        cameraTarget = target;
         m_IsAttacking = true;
     }
 
@@ -74,7 +79,7 @@ public class RaycastWeapon : WeaponBase
         {
             m_WeaponAttributes.m_Muzzle.Emit(1);
         }
-        Vector3 u = m_RaycastOrigin.forward * m_WeaponAttributes.BulletSpeed;
+        Vector3 u = (cameraTarget.position - m_RaycastOrigin.position) * m_WeaponAttributes.BulletSpeed;
         RaycastBullet bullet = CreateBullet(m_RaycastOrigin.position, u);
         bullets.Add(bullet);
     }
@@ -112,6 +117,10 @@ public class RaycastWeapon : WeaponBase
             {
                 rb.AddForceAtPosition(ray.direction * 5, hit.point, ForceMode.Impulse);
             }
+
+            m_WeaponAttributes.m_HitEffect.transform.position = hit.point;
+            m_WeaponAttributes.m_HitEffect.transform.forward = hit.normal;
+            m_WeaponAttributes.m_HitEffect.Emit(1);
         }
         else
         {
@@ -141,6 +150,16 @@ public class RaycastWeapon : WeaponBase
         bullet.bulletProjectile = Instantiate(m_WeaponAttributes.m_BulletEffect, position, Quaternion.identity);
         bullet.bulletProjectile.AddPosition(position);
         return bullet;
+    }
+
+    public void ReloadRaycastWeapon()
+    {
+
+    }
+
+    public override bool CanAttack()
+    {
+        return !IsReloading;
     }
     #endregion
 }

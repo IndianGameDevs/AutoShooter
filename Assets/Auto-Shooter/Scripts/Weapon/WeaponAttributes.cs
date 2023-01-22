@@ -6,6 +6,7 @@ using UnityEngine;
 public class WeaponAttributes
 {
     public ParticleSystem m_Muzzle;
+    public ParticleSystem m_HitEffect;
     public TrailRenderer m_BulletEffect;
     public int MagazineSize;
     public int MaxBulletBounces;

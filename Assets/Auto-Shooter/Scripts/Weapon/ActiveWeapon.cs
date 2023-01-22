@@ -11,6 +11,11 @@ public class ActiveWeapon : MonoBehaviour
     public WeaponBase MeleeWeapon;
 
     private bool IsTapped;
+    public Transform aimTarget;
+    private void Start()
+    {
+        aimTarget = this.GetComponent<PlayerController>().cameraAimLookAt;
+    }
     private void Update()
     {
         if (currentActiveWeapon == null) return;
@@ -26,7 +31,7 @@ public class ActiveWeapon : MonoBehaviour
     {
         if (PlayerInputHandler.Instance.IsShootPressed && !IsTapped)
         {
-            currentActiveWeapon.StartAttacking();
+            currentActiveWeapon.StartAttacking(aimTarget);
             IsTapped = true;
         }
         else
@@ -40,7 +45,7 @@ public class ActiveWeapon : MonoBehaviour
     {
         if (PlayerInputHandler.Instance.IsShootPressed)
         {
-            currentActiveWeapon.StartAttacking();
+            currentActiveWeapon.StartAttacking(aimTarget);
         }
         else
         {
