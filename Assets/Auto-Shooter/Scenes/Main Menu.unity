@@ -26,7 +26,7 @@ RenderSettings:
   m_AmbientIntensity: 1
   m_AmbientMode: 0
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
-  m_SkyboxMaterial: {fileID: 10304, guid: 0000000000000000f000000000000000, type: 0}
+  m_SkyboxMaterial: {fileID: 2100000, guid: 171e6ee74c4706e408c3ae23b55f467f, type: 2}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18026263, g: 0.22567914, b: 0.3068796, a: 1}
+  m_IndirectSpecularColor: {r: 0.0043258667, g: 0.0044044056, b: 0.008134483, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -136,7 +136,7 @@ GameObject:
   - component: {fileID: 4465853}
   - component: {fileID: 4465852}
   m_Layer: 0
-  m_Name: Cube
+  m_Name: Floor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -817,7 +817,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &733305542
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1805,6 +1805,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   followTarget: {fileID: 2057167096}
   offset: {x: 0.4, y: 1.6, z: 0}
+  rollAxis: 0
   yawAxis: 0
 --- !u!1 &1488256630
 GameObject:
@@ -2361,6 +2362,37 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 600, y: 600}
   m_Pivot: {x: 1, y: 0}
+--- !u!1 &1924025346
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1924025347}
+  m_Layer: 6
+  m_Name: BulletSpawn
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1924025347
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1924025346}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.061, z: 0.666}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3930840283733988618}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2034469575
 GameObject:
   m_ObjectHideFlags: 0
@@ -2405,6 +2437,7 @@ GameObject:
   - component: {fileID: 2057167098}
   - component: {fileID: 2057167097}
   - component: {fileID: 2057167099}
+  - component: {fileID: 2057167100}
   m_Layer: 6
   m_Name: Player
   m_TagString: Player
@@ -2516,6 +2549,24 @@ MonoBehaviour:
   IsJumping: 0
   IsRunning: 0
   rollAxis: 0
+--- !u!114 &2057167100
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2057167095}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64ef6a96850d34d6ba944e59e8203695, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentActiveWeapon: {fileID: 3930840283733988619}
+  PrimaryWeapons:
+  - {fileID: 0}
+  - {fileID: 0}
+  SecondaryWeapon: {fileID: 0}
+  MeleeWeapon: {fileID: 0}
 --- !u!1 &2097755380
 GameObject:
   m_ObjectHideFlags: 0
@@ -6258,6 +6309,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3930840283733988618}
+  - component: {fileID: 3930840283733988619}
   m_Layer: 6
   m_Name: Rifle
   m_TagString: Untagged
@@ -8408,9 +8460,42 @@ Transform:
   - {fileID: 2932649271146589956}
   - {fileID: 4174660936828401902}
   - {fileID: 3365453880922075858}
+  - {fileID: 1924025347}
   m_Father: {fileID: 2145193861}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3930840283733988619
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 60376046210672409}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5513509abbaf7480394be97233ae5284, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_WeaponName: Rifle
+  m_IsAttacking: 0
+  m_IsHolstered: 0
+  weaponInput: 2
+  m_WeaponAttributes:
+    m_Muzzle: {fileID: 0}
+    m_BulletEffect: {fileID: 1789521279251047014, guid: d4abd0ad8742a4e33b9610fa4070eb8f,
+      type: 3}
+    MagazineSize: 30
+    MaxBulletBounces: 0
+    BulletSpeed: 100
+    BulletDrop: 0
+    BulletLifeTime: 0.2
+    WeaponFireRate: 15
+  bullets: []
+  m_RaycastOrigin: {fileID: 1924025347}
+  m_LayerMask:
+    serializedVersion: 2
+    m_Bits: 64
+  currentAmmo: 400
 --- !u!23 &4067820350162634677
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -8578,7 +8663,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 5b56d9fa0e8bd6e409ed188db38a692c, type: 3}
+  m_Sprite: {fileID: 21300000, guid: a368dea01dbfb45b4b4c92c00b45c461, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -8608,7 +8693,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a47f546fc70ec8428172694e78e4288, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  handleRange: 1
+  handleRange: 0.5
   deadZone: 0
   axisOptions: 0
   snapX: 0
@@ -8633,8 +8718,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 600, y: 600}
+  m_AnchoredPosition: {x: 50, y: 50}
+  m_SizeDelta: {x: 350, y: 350}
   m_Pivot: {x: 0, y: 0}
 --- !u!1 &5784600435925170381
 GameObject:
@@ -8752,14 +8837,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.9803922, g: 0.9176471, b: 0.4901961, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 010a6e5305fa7004f89c5d317b7b47d4, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 3a74f678ee8f3bd49aacf3de1ae4bcaa, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

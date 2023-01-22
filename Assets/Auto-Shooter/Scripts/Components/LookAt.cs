@@ -9,12 +9,12 @@ public class
     [SerializeField] private Transform followTarget;
     [SerializeField] private Vector3 offset;
 
-    private float rollAxis;
+    [SerializeField]private float rollAxis;
    [SerializeField] private float yawAxis;
     private void Update()
     {
         UpdateCamera();
-        transform.position = followTarget.TransformPoint(offset); 
+        transform.position = followTarget.TransformPoint(offset);
     }
 
     private void UpdateCamera()
