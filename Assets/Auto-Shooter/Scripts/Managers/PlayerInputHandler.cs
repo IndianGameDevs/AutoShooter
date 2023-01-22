@@ -1,0 +1,101 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.Events;
+
+public class PlayerInputHandler : MonoBehaviour
+{
+    private static PlayerInputHandler instance;
+
+    public static PlayerInputHandler Instance
+    {
+        get
+        {
+            if (instance == null)
+            {
+                instance = FindObjectOfType<PlayerInputHandler>();
+            }
+            return instance;
+        }
+    }
+
+    [SerializeField] private FloatingJoystick floatingJoystick;
+
+    public float Horizontal;
+    public float Forward;
+
+    public bool IsShootPressed;
+    public bool IsRunPressed;
+    public bool IsJumpPressed;
+
+    #region Touch Input for Camera Rotation
+    public float InputX, InputY;
+    private bool rightFingerPressed = false;
+    private Vector2 startPosition;
+    #endregion
+
+    [Range(0.1f, 30.0f)]
+    public float m_CameraSensitivity;
+
+    private void Awake()
+    {
+        if (floatingJoystick == null)
+        {
+            floatingJoystick = FindObjectOfType<FloatingJoystick>();
+        }
+    }
+
+    private void Update()
+    {
+        SetHorizontal();
+
+        SetForward();
+
+        CalculateTouchInput();
+    }
+
+    private void CalculateTouchInput()
+    {
+        for (int i = 0; i < Input.touchCount; i++)
+        {
+            Touch t = Input.GetTouch(i);
+            if (t.position.x < Screen.width / 2) continue;
+
+            if (t.phase.Equals(TouchPhase.Began))
+            {
+                if (!rightFingerPressed)
+                {
+                    rightFingerPressed = true;
+                    startPosition = t.position;
+                    break;
+                }
+            }
+            else if (t.phase.Equals(TouchPhase.Moved))
+            {
+                if (rightFingerPressed)
+                {
+                    InputX = t.position.x - startPosition.x;
+                    InputY = t.position.y - startPosition.y;
+                }
+            }
+            else if (t.phase.Equals(TouchPhase.Ended) || t.phase.Equals(TouchPhase.Canceled))
+            {
+                rightFingerPressed = false;
+                startPosition = Vector2.zero;
+                InputX = 0;
+                InputY = 0;
+            }
+        }
+    }
+    
+
+    private void SetHorizontal()
+    {
+        Horizontal = floatingJoystick.Horizontal;
+    }
+
+    private void SetForward()
+    {
+        Forward = floatingJoystick.Vertical;
+    }
+}
