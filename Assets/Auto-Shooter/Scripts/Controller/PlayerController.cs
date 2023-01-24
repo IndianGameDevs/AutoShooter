@@ -65,15 +65,18 @@ public class PlayerController : MonoBehaviour
             IsRunning = false;
         }
 
-        float yawCamera = playerCam.transform.eulerAngles.y;
+        RotatePlayer();
 
-        transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(0, yawCamera, 0), m_Movement.TurnSpeed * Time.deltaTime);
         CheckAnimations();
     }
 
-    private void LateUpdate()
+    private void RotatePlayer()
     {
         cameraAimLookAt.transform.position = playerCam.cameraAim.TransformPoint(cameraAimOffset);
+
+        float yawCamera = playerCam.transform.eulerAngles.y;
+
+        transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(0, yawCamera, 0), m_Movement.TurnSpeed * Time.deltaTime);
     }
 
     private void CheckAnimations()

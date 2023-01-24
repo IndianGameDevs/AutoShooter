@@ -10,17 +10,20 @@ public class CameraProjection : MonoBehaviour
     private Ray aimRay;
     private RaycastHit hit;
 
+    [Range(5.0f, 50.0f)]
+    public float maxRange;
+
     private void Update()
     {
         aimRay.origin = transform.position;
         aimRay.direction = cameraAim.position - transform.position;
-        if (Physics.Raycast(aimRay, out hit, 100.0f, ~playerMask))
+        if (Physics.Raycast(aimRay, out hit, maxRange, ~playerMask))
         {
             cameraAim.position = hit.point;
         }
         else
         {
-            cameraAim.position = transform.position + transform.forward * 100.0f;
+            cameraAim.position = transform.position + transform.forward * maxRange;
         }
     }
 }

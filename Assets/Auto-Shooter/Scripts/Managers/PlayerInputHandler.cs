@@ -56,6 +56,31 @@ public class PlayerInputHandler : MonoBehaviour
 
     private void CalculateTouchInput()
     {
+#if UNITY_EDITOR
+        if (Input.GetMouseButtonDown(0))
+        {
+            if (Input.mousePosition.x > Screen.width / 2)
+            {
+                if (!rightFingerPressed)
+                {
+                    rightFingerPressed = true;
+                    startPosition = Input.mousePosition;
+                }
+            }
+        }
+
+        if (rightFingerPressed)
+        {
+            InputX = Input.mousePosition.x - startPosition.x;
+            InputY = Input.mousePosition.y - startPosition.y;
+        }
+
+        if (Input.GetMouseButtonUp(0))
+        {
+            rightFingerPressed = false;
+            InputX = InputY = 0;
+        }
+#else
         for (int i = 0; i < Input.touchCount; i++)
         {
             Touch t = Input.GetTouch(i);
@@ -86,6 +111,7 @@ public class PlayerInputHandler : MonoBehaviour
                 InputY = 0;
             }
         }
+#endif
     }
     
 
