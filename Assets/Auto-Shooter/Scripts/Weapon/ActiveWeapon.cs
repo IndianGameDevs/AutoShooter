@@ -12,9 +12,14 @@ public class ActiveWeapon : MonoBehaviour
 
     private bool IsTapped;
     public Transform aimTarget;
+
     private void Start()
     {
         aimTarget = this.GetComponent<PlayerController>().cameraAimLookAt;
+       if(currentActiveWeapon!= null)
+        {
+            currentActiveWeapon.InitializePlayerWeapon(this.GetComponent<PlayerController>());
+        }
     }
     private void Update()
     {
@@ -25,8 +30,18 @@ public class ActiveWeapon : MonoBehaviour
             case WeaponInput.Tap: CheckForTapInput(); break;
         }
         currentActiveWeapon.UpdateWeapon(Time.deltaTime);
+        if (currentActiveWeapon.m_IsAttacking)
+        {
+
+        }
+        else
+        {
+
+        }
     }
 
+
+    #region Weapon Attack
     private void CheckForTapInput()
     {
         if (PlayerInputHandler.Instance.IsShootPressed && !IsTapped)
@@ -52,4 +67,6 @@ public class ActiveWeapon : MonoBehaviour
             currentActiveWeapon.StopAttacking();
         }
     }
+
+    #endregion
 }

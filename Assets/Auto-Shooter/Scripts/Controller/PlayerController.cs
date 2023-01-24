@@ -10,19 +10,15 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private CharacterController controller;
     [SerializeField] private Collider characterCollider;
     public Transform cameraAimLookAt;
-    [Space(20)]
-
     [Header("Scene-Objects")]
     [SerializeField] private CameraProjection playerCam;
-
-    [Header(" Attributes ")]
-    [SerializeField] private Vector3 cameraAimOffset;
+    [Header("Attributes")]
+    [SerializeField] private CameraAim m_CameraAimOffset;
     [Range(1f,100.0f)]
-    [SerializeField]private float m_CameraSensitivity;
+    public float m_CameraSensitivity;
     [SerializeField] private Movement m_Movement;
     [SerializeField] private PlayerAnimator m_PlayerAnimator;
     [SerializeField] private PlayerInput m_Input;
-
     [Space(20)]
     private PlayerInputHandler inputHandler;
 
@@ -30,10 +26,6 @@ public class PlayerController : MonoBehaviour
     public bool IsRunning;
 
     private Vector3 move;
-
-    [SerializeField]
-    private float rollAxis;
-    private float yawAxis;
 
     private void Awake()
     {
@@ -72,7 +64,7 @@ public class PlayerController : MonoBehaviour
 
     private void RotatePlayer()
     {
-        cameraAimLookAt.transform.position = playerCam.cameraAim.TransformPoint(cameraAimOffset);
+        cameraAimLookAt.transform.position = playerCam.cameraAim.transform.position + m_CameraAimOffset.cameraAimOffset;
 
         float yawCamera = playerCam.transform.eulerAngles.y;
 
@@ -87,11 +79,9 @@ public class PlayerController : MonoBehaviour
 
         m_PlayerAnimator.SetRunning(IsRunning);
 
-        if (!controller.isGrounded)
-        {
-            m_PlayerAnimator.SetFall(controller.velocity.y < 0);
-        }
-        else
+        m_PlayerAnimator.SetFall(controller.velocity.y < -.2f);
+
+        if (controller.isGrounded)
         {
             m_PlayerAnimator.SetMovement(new Vector2(m_Input.Horizontal, m_Input.Forward));
         }
@@ -119,7 +109,6 @@ public class PlayerController : MonoBehaviour
         if (IsJumping || !controller.isGrounded) return;
 
         float jumpVel = Mathf.Sqrt(2 * m_Movement.Gravity * m_Movement.JumpSpeed);
-
         JumpInAir(jumpVel);
     }
 
@@ -139,7 +128,7 @@ public class PlayerController : MonoBehaviour
         controller.Move(Time.fixedDeltaTime * (stepDownMovement + stepForwardMovement));
         if (!controller.isGrounded)
         {
-            JumpInAir(0.0f);
+            JumpInAir(.5f);
         }
     }
 

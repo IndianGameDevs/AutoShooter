@@ -30,6 +30,15 @@ public class RaycastWeapon : WeaponBase
     public Transform cameraTarget;
     public bool IsReloading;
 
+    private int bulletShotIndex = 0;
+    private WeaponRecoil weaponRecoil;
+
+    private void Awake()
+    {
+        weaponRecoil = GetComponent<WeaponRecoil>();
+        weaponRecoil.activeRecoilPattern = m_WeaponAttributes.weaponRecoil;
+    }
+
     public override void Holster()
     {
         m_IsHolstered = true;
@@ -43,7 +52,10 @@ public class RaycastWeapon : WeaponBase
 
     public override void StopAttacking()
     {
+        cameraTarget = null;
         m_IsAttacking = false;
+        bulletShotIndex = 0;
+        weaponRecoil.ResetRecoil();
     }
 
     public override void UnHolster()
@@ -55,6 +67,7 @@ public class RaycastWeapon : WeaponBase
     {
         DestroyBullet();
         UpdateWeaponFiring(deltaTime);
+        weaponRecoil.UpdateWeaponRecoil(deltaTime);
         SimulateBullets(deltaTime);
     }
 
@@ -73,7 +86,7 @@ public class RaycastWeapon : WeaponBase
         {
             return;
         }
-
+        weaponRecoil.GenerateRecoil();
         currentAmmo--;
         if (m_WeaponAttributes.m_Muzzle != null)
         {
@@ -160,6 +173,11 @@ public class RaycastWeapon : WeaponBase
     public override bool CanAttack()
     {
         return !IsReloading;
+    }
+
+    public override void InitializePlayerWeapon(PlayerController playerController)
+    {
+        weaponRecoil.cameraAim = playerController.GetComponent<CameraAim>();
     }
     #endregion
 }

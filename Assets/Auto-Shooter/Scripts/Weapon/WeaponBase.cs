@@ -17,6 +17,6 @@ public abstract class WeaponBase : MonoBehaviour
     public abstract void UnHolster();
 
     public abstract void UpdateWeapon(float deltaTime);
-
+    public abstract void InitializePlayerWeapon(PlayerController playerController);
     public abstract bool CanAttack();
 }

@@ -224,7 +224,7 @@ ParticleSystem:
       serializedVersion: 2
       minMaxState: 0
       minColor: {r: 1, g: 1, b: 1, a: 1}
-      maxColor: {r: 1, g: 0.5727851, b: 0, a: 1}
+      maxColor: {r: 0, g: 0.7045715, b: 1, a: 1}
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
@@ -10249,6 +10249,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5841750196256292346}
   - component: {fileID: 5841750196256292347}
+  - component: {fileID: 5351018154256200204}
   m_Layer: 6
   m_Name: Rifle
   m_TagString: Untagged
@@ -10299,6 +10300,7 @@ MonoBehaviour:
     m_HitEffect: {fileID: 1157902241465987490}
     m_BulletEffect: {fileID: 1789521279251047014, guid: d4abd0ad8742a4e33b9610fa4070eb8f,
       type: 3}
+    weaponRecoil: {fileID: 11400000, guid: a7e2cf134e29a441082cf26c469ea04a, type: 2}
     MagazineSize: 30
     MaxBulletBounces: 0
     BulletSpeed: 100
@@ -10313,6 +10315,23 @@ MonoBehaviour:
   currentAmmo: 400
   cameraTarget: {fileID: 0}
   IsReloading: 0
+--- !u!114 &5351018154256200204
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7442560135064080361}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2fa22d6c6390a4a448259e6b1426b538, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cameraAim: {fileID: 0}
+  Horizontal: 0
+  Vertical: 0
+  activeRecoilPattern: {fileID: 0}
+  recoilDuration: 0.2
 --- !u!1 &7466746851442582770
 GameObject:
   m_ObjectHideFlags: 0
