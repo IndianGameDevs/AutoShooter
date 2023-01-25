@@ -22,6 +22,11 @@ public abstract class GameButton : MonoBehaviour, IPointerDownHandler, IPointerU
         graphicImage.transform.DOScale(Vector3.one, transitionTime);
     }
 
+    public virtual void OnClick()
+    {
+
+    }
+
     public void OnPointerDown(PointerEventData eventData)
     {
         OnPressed();
@@ -34,6 +39,6 @@ public abstract class GameButton : MonoBehaviour, IPointerDownHandler, IPointerU
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        
+        OnClick();
     }
 }
