@@ -13,6 +13,8 @@ public class CameraProjection : MonoBehaviour
     [Range(5.0f, 50.0f)]
     public float maxRange;
 
+    public Transform m_LookAt;
+
     private void Update()
     {
         aimRay.origin = transform.position;
@@ -25,5 +27,7 @@ public class CameraProjection : MonoBehaviour
         {
             cameraAim.position = transform.position + transform.forward * maxRange;
         }
+
+        
     }
 }

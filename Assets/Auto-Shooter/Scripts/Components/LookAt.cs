@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class
-    LookAt : MonoBehaviour
-{ 
+public class LookAt : MonoBehaviour
+{
     [SerializeField] private Transform followTarget;
     [SerializeField] private Vector3 offset;
 
-    [SerializeField]private float rollAxis;
-   [SerializeField] private float yawAxis;
+    public float rollAxis;
+    public float yawAxis;
+
     private void Update()
     {
         UpdateCamera();
@@ -19,7 +19,7 @@ public class
 
     private void UpdateCamera()
     {
-        rollAxis -= (PlayerInputHandler.Instance.InputY / 100) * Time.deltaTime * PlayerInputHandler.Instance.m_CameraSensitivity;
+        rollAxis -= (PlayerInputHandler.Instance.InputY / 100) * Time.deltaTime * PlayerInputHandler.Instance.m_CameraSensitivity * 5f;
         rollAxis = Mathf.Clamp(rollAxis, -60, 60);
         yawAxis += (PlayerInputHandler.Instance.InputX / 10) * (PlayerInputHandler.Instance.m_CameraSensitivity) * Time.deltaTime;
         this.transform.rotation = Quaternion.Euler(rollAxis, yawAxis, 0);

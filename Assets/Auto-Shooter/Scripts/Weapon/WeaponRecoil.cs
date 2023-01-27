@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class WeaponRecoil : MonoBehaviour
 {
-    public CameraAim cameraAim;
+    public LookAt cameraAim;
     public float Horizontal;
     public float Vertical;
 
@@ -16,7 +16,6 @@ public class WeaponRecoil : MonoBehaviour
     public void ResetRecoil()
     {
         index = 0;
-        cameraAim.cameraAimOffset = Vector3.zero;
     }
 
     public void GenerateRecoil()
@@ -31,8 +30,8 @@ public class WeaponRecoil : MonoBehaviour
     {
         if (currentRecoilTime > 0)
         {
-            cameraAim.cameraAimOffset.x -= (Horizontal / 10 * deltaTime) / recoilDuration;
-            cameraAim.cameraAimOffset.y -= (Vertical / 10 * deltaTime) / recoilDuration;
+            cameraAim.rollAxis -= (Horizontal / 10 * deltaTime) / recoilDuration;
+            cameraAim.yawAxis -= (Vertical / 10 * deltaTime) / recoilDuration;
         }
 
         currentRecoilTime -= deltaTime;

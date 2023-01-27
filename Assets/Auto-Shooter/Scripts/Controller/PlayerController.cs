@@ -17,7 +17,7 @@ public class PlayerController : MonoBehaviour
     [Range(1f,100.0f)]
     public float m_CameraSensitivity;
     [SerializeField] private Movement m_Movement;
-    [SerializeField] private PlayerAnimator m_PlayerAnimator;
+    public PlayerAnimator m_PlayerAnimator;
     [SerializeField] private PlayerInput m_Input;
     [Space(20)]
     private PlayerInputHandler inputHandler;
@@ -26,11 +26,19 @@ public class PlayerController : MonoBehaviour
     public bool IsRunning;
 
     private Vector3 move;
+    public LookAt aimLookAt;
+    public Health playerHealth;
 
     private void Awake()
     {
         inputHandler = PlayerInputHandler.Instance;
         m_PlayerAnimator.GenerateHash();
+    }
+
+    private void Start()
+    {
+        playerHealth.maxHealth = 100;
+        playerHealth.UpdateCurrentHealth(100);
     }
     private void Update()
     {
@@ -60,6 +68,18 @@ public class PlayerController : MonoBehaviour
         RotatePlayer();
 
         CheckAnimations();
+    }
+
+    public void UpdatedHealth(int prev, int current, int maxHealth)
+    {
+        if (prev < current)
+        {
+            // Healed
+        }
+        else
+        {
+
+        }
     }
 
     private void RotatePlayer()
@@ -128,7 +148,7 @@ public class PlayerController : MonoBehaviour
         controller.Move(Time.fixedDeltaTime * (stepDownMovement + stepForwardMovement));
         if (!controller.isGrounded)
         {
-            JumpInAir(.5f);
+            JumpInAir(-.5f);
         }
     }
 

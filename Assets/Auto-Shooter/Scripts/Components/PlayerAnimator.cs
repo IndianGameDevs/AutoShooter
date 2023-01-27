@@ -59,4 +59,9 @@ public class PlayerAnimator
 		if (!IsConfigured) return;
 		animator.SetBool(this.IsRunning, IsRunning);
 	}
+
+	public void Play(string anim)
+	{
+		animator.Play(anim);
+	}
 }

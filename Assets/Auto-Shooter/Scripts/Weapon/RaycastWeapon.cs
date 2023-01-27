@@ -29,7 +29,7 @@ public class RaycastWeapon : WeaponBase
 
     public Transform cameraTarget;
     public bool IsReloading;
-
+    private PlayerController currentController;
     private int bulletShotIndex = 0;
     private WeaponRecoil weaponRecoil;
 
@@ -87,6 +87,7 @@ public class RaycastWeapon : WeaponBase
             return;
         }
         weaponRecoil.GenerateRecoil();
+        currentController.m_PlayerAnimator.Play("RifleRecoil");
         currentAmmo--;
         if (m_WeaponAttributes.m_Muzzle != null)
         {
@@ -177,7 +178,8 @@ public class RaycastWeapon : WeaponBase
 
     public override void InitializePlayerWeapon(PlayerController playerController)
     {
-        weaponRecoil.cameraAim = playerController.GetComponent<CameraAim>();
+        currentController = playerController;
+        weaponRecoil.cameraAim = playerController.aimLookAt;
     }
     #endregion
 }

@@ -84,10 +84,10 @@ public class PlayerInputHandler : MonoBehaviour
         for (int i = 0; i < Input.touchCount; i++)
         {
             Touch t = Input.GetTouch(i);
-            if (t.position.x < Screen.width / 2) continue;
 
             if (t.phase.Equals(TouchPhase.Began))
             {
+                if (t.position.x < Screen.width / 2) continue;
                 if (!rightFingerPressed)
                 {
                     rightFingerPressed = true;
@@ -97,7 +97,7 @@ public class PlayerInputHandler : MonoBehaviour
             }
             else if (t.phase.Equals(TouchPhase.Moved))
             {
-                if (rightFingerPressed)
+                if (rightFingerPressed && (t.position.x > Screen.width / 2))
                 {
                     InputX = t.position.x - startPosition.x;
                     InputY = t.position.y - startPosition.y;
@@ -113,7 +113,7 @@ public class PlayerInputHandler : MonoBehaviour
         }
 #endif
     }
-    
+
 
     private void SetHorizontal()
     {
