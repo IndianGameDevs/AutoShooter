@@ -37,6 +37,11 @@ public static class Method
         return sourceAngles;
     }
 
+    public static float GetNewValue(float OldMin,float OldMax,float NewMin,float NewMax,float oldValue)
+    {
+        return ((oldValue - OldMin) * ((NewMax - NewMin) / (OldMax - OldMin))) + NewMin;
+    }
+
     public static Color SetAlpha(this Color a,float alpha)
     {
         a = new Color(a.r, a.g, a.b, alpha);
