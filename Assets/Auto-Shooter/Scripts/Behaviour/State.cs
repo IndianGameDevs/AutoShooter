@@ -7,6 +7,7 @@ public class State : ScriptableObject
 {
     public Action[] actions;
     public Transition[] transitions;
+    public Action[] exitActions;
 
     public void UpdateState(EnemyController controller)
     {
@@ -33,6 +34,13 @@ public class State : ScriptableObject
         }
     }
 
+    public void Exit(EnemyController controller)
+    {
+        foreach(Action action in exitActions)
+        {
+            action.Act(controller);
+        }
+    }
     private void ChangeState(EnemyController controller, State state)
     {
         controller.SwitchState(state);

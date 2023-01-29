@@ -24,9 +24,10 @@ public class Sensor : MonoBehaviour
     private int foundEnemies;
     private float lastCheckTime;
 
-    public Collider Target;
+    public Transform Target;
     private Collider[] enemiesInRange = new Collider[15];
-    private List<Collider> enemySpotList = new List<Collider>();
+    private List<Transform> enemySpotList = new List<Transform>();
+    private int cachedFoundEnemies = -1;
     #endregion
 
     public void SensorUpdate(float deltaTime)
@@ -41,7 +42,12 @@ public class Sensor : MonoBehaviour
     private void UpdateTargetInRange()
     {
         foundEnemies = Physics.OverlapSphereNonAlloc(transform.position, sensorRadius, enemiesInRange, targetLayers);
-        Debug.Log($"<color=yellow>Total Objects for that layer in the Radius : </color> {foundEnemies}");
+
+        if (foundEnemies != cachedFoundEnemies)
+        {
+            Debug.Log($"<color=yellow>Total Objects for that layer in the Radius : </color> {foundEnemies}");
+            cachedFoundEnemies = foundEnemies;
+        }
         UpdateEnemiesOfSight();
     }
 
@@ -53,25 +59,27 @@ public class Sensor : MonoBehaviour
 
         for (int i = 0; i < foundEnemies; i++)
         {
-            if (enemiesInRange[i].TryGetComponent<TargetPoint>(out TargetPoint hits))
+            foreach (Collider collider in enemiesInRange)
             {
-                foreach (Transform sightPoint in hits.HitPoints)
+                if (collider == null) break;
+                if (collider.TryGetComponent<TargetPoint>(out TargetPoint hitCollider))
                 {
-                    Vector3 distance = sightPoint.position - sensorSight.position;
-                    direction = distance.normalized;
-                    Ray ray = new Ray(sensorSight.position, direction);
-
-                    if (Physics.Raycast(ray, out RaycastHit hit))
+                    foreach (Transform t in hitCollider.HitPoints)
                     {
-                        if (hit.collider.gameObject.Equals(enemiesInRange[i].gameObject))
-                        {
-                            float angle = Vector3.Angle(direction, transform.forward);
+                        Vector3 distance = t.position - sensorSight.position;
+                        direction = distance.normalized;
+                        Ray ray = new Ray(sensorSight.position, direction);
 
-                            if (angle <= InSightRadiusArc)
+                        if (Physics.Raycast(ray, out RaycastHit raycastHit))
+                        {
+                            if (raycastHit.collider.Equals(collider))
                             {
-                                Debug.Log($"<color=red>Found <b>{enemiesInRange[i].name} </b>in sight</color>");
-                                enemySpotList.Add(enemiesInRange[i]);
-                                break;
+                                float angle = Vector3.Angle(direction, transform.forward);
+                                if (angle <= InSightRadiusArc)
+                                {
+                                    enemySpotList.Add(t);
+                                    break;
+                                }
                             }
                         }
                     }
@@ -91,7 +99,7 @@ public class Sensor : MonoBehaviour
 
     private void CheckNearestTarget()
     {
-        Collider closestTarget = enemySpotList[0];
+        Transform closestTarget = enemySpotList[0];
         float closestDistance = Vector3.Distance(enemySpotList[0].transform.position, sensorSight.position);
 
         for (int i = 1; i < enemySpotList.Count; i++)
@@ -117,10 +125,10 @@ public class Sensor : MonoBehaviour
     {
         Gizmos.color = Color.red;
 
-        foreach (Collider collider in enemySpotList)
+        foreach (Transform t in enemySpotList)
         {
-            if (collider != Target)
-                Gizmos.DrawWireSphere(collider.transform.position, 1f);
+            if (t != Target)
+                Gizmos.DrawWireSphere(t.position, 1f);
         }
 
         Gizmos.color = Color.blue;
@@ -129,7 +137,7 @@ public class Sensor : MonoBehaviour
         if (Target != null)
         {
             Gizmos.color = Color.green;
-            Gizmos.DrawWireSphere(Target.transform.position, 1f);
+            Gizmos.DrawWireSphere(Target.transform.position, .2f);
         }
 
         Gizmos.color = Color.yellow;

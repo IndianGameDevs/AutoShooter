@@ -130,6 +130,7 @@ public class PlayerController : MonoBehaviour
 
         float jumpVel = Mathf.Sqrt(2 * m_Movement.Gravity * m_Movement.JumpSpeed);
         JumpInAir(jumpVel);
+
     }
 
     private void UpdateInAir()
@@ -148,15 +149,15 @@ public class PlayerController : MonoBehaviour
         controller.Move(Time.fixedDeltaTime * (stepDownMovement + stepForwardMovement));
         if (!controller.isGrounded)
         {
-            JumpInAir(-.5f);
+            JumpInAir(0.0f);
         }
     }
 
     private void JumpInAir(float jumpVelocity)
     {
-        IsJumping = true;
         move = (transform.forward * m_Input.Forward + transform.right * m_Input.Horizontal) * m_Movement.MovementSpeed;
         move.y = jumpVelocity;
+        IsJumping = true;
     }
 
     private void CollectInput()

@@ -10307,6 +10307,7 @@ MonoBehaviour:
     BulletDrop: 0
     BulletLifeTime: 0.2
     WeaponFireRate: 15
+    bulletDamage: 30
   bullets: []
   m_RaycastOrigin: {fileID: 7466746851442582771}
   m_LayerMask:

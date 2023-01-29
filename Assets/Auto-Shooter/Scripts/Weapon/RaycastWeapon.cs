@@ -131,7 +131,10 @@ public class RaycastWeapon : WeaponBase
             {
                 rb.AddForceAtPosition(ray.direction * 5, hit.point, ForceMode.Impulse);
             }
-
+            if(hit.collider.TryGetComponent(out Health health))
+            {
+                health.UpdateCurrentHealth(-1 * m_WeaponAttributes.bulletDamage);
+            }
             m_WeaponAttributes.m_HitEffect.transform.position = hit.point;
             m_WeaponAttributes.m_HitEffect.transform.forward = hit.normal;
             m_WeaponAttributes.m_HitEffect.Emit(1);

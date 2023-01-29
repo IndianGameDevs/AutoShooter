@@ -7,6 +7,8 @@ public class TargetPoint : MonoBehaviour
     public Transform[] HitPoints;
 
     [SerializeField] private bool ShowGizmo;
+    [Range(0.01f,1f)]
+    [SerializeField] private float radius;
 
     private void OnDrawGizmos()
     {
@@ -16,7 +18,7 @@ public class TargetPoint : MonoBehaviour
         {
             if(hit)
             {
-                Gizmos.DrawWireSphere(hit.position, 0.5f);
+                Gizmos.DrawWireSphere(hit.position, .25f);
             }
         }
     }

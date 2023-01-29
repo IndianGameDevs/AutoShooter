@@ -47,10 +47,14 @@ public class PlayerInputHandler : MonoBehaviour
 
     private void Update()
     {
+#if UNITY_EDITOR
+        Horizontal = Input.GetAxis("Horizontal");
+        Forward = Input.GetAxis("Vertical");
+#else
         SetHorizontal();
 
         SetForward();
-
+#endif
         CalculateTouchInput();
     }
 

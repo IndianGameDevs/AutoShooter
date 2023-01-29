@@ -20,4 +20,6 @@ public class WeaponAttributes
     public float BulletDrop;
     public float BulletLifeTime;
     public float WeaponFireRate;
+
+    public int bulletDamage;
 }
