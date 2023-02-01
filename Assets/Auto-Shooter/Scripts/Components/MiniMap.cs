@@ -5,22 +5,82 @@ using UnityEngine.UI;
 
 public class MiniMap : MonoBehaviour
 {
+    private static MiniMap instance;
+
+    public static MiniMap Instance
+    {
+        get
+        {
+            if (instance == null)
+            {
+                instance = FindObjectOfType<MiniMap>();
+            }
+
+            return instance;
+        }
+    }
     public Range miniMapSizeX;
     public Range miniMapSizeY;
 
     public Range MapSizeX;
     public Range MapSizeY;
 
-    public RectTransform playerIcon;
+    [SerializeField] private MiniMapUIIcon iconRef;
+
+    private MiniMapUIIcon[] m_MiniMapIcons;
+    private MiniMapItem[] miniMapItems;
+
+    private RectTransform playerIcon;
     public RectTransform miniMap;
     Transform player;
-    private void Awake()
+
+    public int maxCount;
+
+    private IEnumerator Start()
     {
-        player = FindObjectOfType<PlayerController>().transform;
+        m_MiniMapIcons = new MiniMapUIIcon[maxCount];
+
+        for (int i = 0; i < maxCount; i++)
+        {
+            yield return new WaitForEndOfFrame();
+            m_MiniMapIcons[i] = Instantiate(iconRef, miniMap);
+        }
+
+        MiniMapItem[] items = FindObjectsOfType<MiniMapItem>();
+
+        miniMapItems = new MiniMapItem[items.Length];
+
+        for (int i = 0; i < m_MiniMapIcons.Length; i++)
+        {
+            MiniMapUIIcon icon = m_MiniMapIcons[i];
+
+            if (i >= items.Length)
+            {
+                icon.gameObject.SetActive(false);
+            }
+            else
+            {
+                MiniMapItem item = items[i];
+                icon.Set(item.miniMapIcon, item.transform, item.IsPlayer);
+                if(item.IsPlayer)
+                {
+                    player = item.transform;
+                    playerIcon = icon.rectTransform;
+                }
+                icon.gameObject.SetActive(true);
+            }
+        }
     }
 
     private void Update()
     {
+        if (player == null) return;
+        foreach (MiniMapUIIcon icon in m_MiniMapIcons)
+        {
+            if (!icon.IsPlayer)
+                icon.UpdatePosition(MapSizeX, miniMapSizeX, MapSizeY, miniMapSizeY);
+        }
+
         Vector2 pos;
         pos.x = Method.GetNewValue(MapSizeX.minRange, MapSizeX.maxRange, miniMapSizeX.minRange, miniMapSizeX.maxRange, player.position.x);
         pos.y = Method.GetNewValue(MapSizeY.minRange, MapSizeY.maxRange, miniMapSizeY.minRange, miniMapSizeY.maxRange, player.position.z);

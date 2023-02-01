@@ -11,6 +11,11 @@ public class LookAt : MonoBehaviour
     public float rollAxis;
     public float yawAxis;
 
+    private void Awake()
+    {
+        followTarget = FindObjectOfType<PlayerController>().transform;
+    }
+
     private void Update()
     {
         UpdateCamera();

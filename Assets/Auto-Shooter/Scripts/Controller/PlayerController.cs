@@ -31,6 +31,9 @@ public class PlayerController : MonoBehaviour
 
     private void Awake()
     {
+        playerCam = FindObjectOfType<CameraProjection>();
+        aimLookAt = FindObjectOfType<LookAt>();
+
         inputHandler = PlayerInputHandler.Instance;
         m_PlayerAnimator.GenerateHash();
     }

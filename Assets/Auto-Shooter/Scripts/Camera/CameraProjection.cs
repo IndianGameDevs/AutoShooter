@@ -15,6 +15,10 @@ public class CameraProjection : MonoBehaviour
 
     public Transform m_LookAt;
 
+    private void Awake()
+    {
+        m_LookAt = FindObjectOfType<LookAt>().transform;
+    }
     private void Update()
     {
         aimRay.origin = transform.position;
@@ -27,7 +31,5 @@ public class CameraProjection : MonoBehaviour
         {
             cameraAim.position = transform.position + transform.forward * maxRange;
         }
-
-        
     }
 }
