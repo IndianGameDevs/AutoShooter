@@ -1335,6 +1335,7 @@ GameObject:
   - component: {fileID: 8456419779591708393}
   - component: {fileID: 8456419779591708394}
   - component: {fileID: 8456419779591708395}
+  - component: {fileID: 2057167104}
   m_Layer: 6
   m_Name: Player
   m_TagString: Player
@@ -1431,6 +1432,7 @@ MonoBehaviour:
   IsRunning: 0
   aimLookAt: {fileID: 0}
   playerHealth: {fileID: 8456419779591708394}
+  m_MovementMode: 0
 --- !u!114 &8456419779591708392
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1520,6 +1522,21 @@ MonoBehaviour:
   - {fileID: 8456419779227032999}
   ShowGizmo: 0
   radius: 0
+--- !u!114 &2057167104
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8456419779591708387}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0e29d67fbc88346c68801947430c48ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  miniMapIcon: {fileID: 21300000, guid: 21a6f47c75b534ba5a34c17031619e84, type: 3}
+  ShowOnMap: 1
+  IsPlayer: 1
 --- !u!1 &8456419779679777168
 GameObject:
   m_ObjectHideFlags: 0
@@ -4533,6 +4550,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5841750196256292347, guid: 37246dc8c6dd24b95b36c517c2615bc5,
+        type: 3}
+      propertyPath: m_WeaponAttributes.BulletSpeed
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 7442560135064080361, guid: 37246dc8c6dd24b95b36c517c2615bc5,
         type: 3}

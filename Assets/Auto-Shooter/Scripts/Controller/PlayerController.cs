@@ -29,6 +29,9 @@ public class PlayerController : MonoBehaviour
     public LookAt aimLookAt;
     public Health playerHealth;
 
+    private float m_CharacterSpeed;
+    [SerializeField] private MovementMode m_MovementMode;
+
     private void Awake()
     {
         playerCam = FindObjectOfType<CameraProjection>();
@@ -68,6 +71,8 @@ public class PlayerController : MonoBehaviour
             IsRunning = false;
         }
 
+        m_MovementMode = IsRunning ? MovementMode.Run : MovementMode.Walk;
+        m_CharacterSpeed = m_MovementMode == MovementMode.Walk ? m_Movement.MovementSpeed : m_Movement.RunSpeed;
         RotatePlayer();
 
         CheckAnimations();
@@ -148,7 +153,7 @@ public class PlayerController : MonoBehaviour
     private void UpdateOnGround()
     {
         Vector3 stepDownMovement = Vector3.down * m_Movement.stepDown;
-        Vector3 stepForwardMovement = (transform.forward * m_Input.Forward + transform.right * m_Input.Horizontal) * m_Movement.MovementSpeed;
+        Vector3 stepForwardMovement = (transform.forward * m_Input.Forward + transform.right * m_Input.Horizontal) * m_CharacterSpeed;
         controller.Move(Time.fixedDeltaTime * (stepDownMovement + stepForwardMovement));
         if (!controller.isGrounded)
         {
@@ -158,7 +163,7 @@ public class PlayerController : MonoBehaviour
 
     private void JumpInAir(float jumpVelocity)
     {
-        move = (transform.forward * m_Input.Forward + transform.right * m_Input.Horizontal) * m_Movement.MovementSpeed;
+        move = (transform.forward * m_Input.Forward + transform.right * m_Input.Horizontal) * m_CharacterSpeed;
         move.y = jumpVelocity;
         IsJumping = true;
     }
@@ -171,4 +176,10 @@ public class PlayerController : MonoBehaviour
         m_Input.RunPressed = inputHandler.IsRunPressed;
         m_Input.ShootPressed = inputHandler.IsShootPressed;
     }
+}
+
+public enum MovementMode
+{
+    Walk,
+    Run
 }
